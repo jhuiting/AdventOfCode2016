@@ -14,6 +14,7 @@ data class Triangle (val edgeOne: Int, val edgeTwo: Int, val edgeThree: Int) {
         fun fromList(values: List<Int>): Triangle {
             return Triangle(values[0], values[1], values[2])
         }
+    }
 }
 
 public fun <T> Sequence<T>.batch(n: Int): Sequence<List<T>> {
