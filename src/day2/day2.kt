@@ -24,10 +24,20 @@ data class KeyPad(var value: Int) {
                 D
          */
         fun enterCodeAdvancedKeyPad(move: MovePartTwo): KeyPad = when(move) {
-            MovePartTwo.UP -> if (!listOf(1,2,4,5,9).contains(value)) copy(value = value + move.intValue) else this
+            MovePartTwo.UP -> if (!listOf(-1,2,4,5,9).contains(value)) copy(value = value + move.intValue) else this
             MovePartTwo.DOWN -> if (!listOf(5,9, 10, 12, 15).contains(value)) copy(value = value + move.intValue) else this
-            MovePartTwo.LEFT -> if (!listOf(1,2,5, 10, 15).contains(value))  copy(value = value + move.intValue) else this
-            MovePartTwo.RIGHT -> if (!listOf(1,4,9, 12, 15).contains(value)) copy(value = value + move.intValue) else this
+            MovePartTwo.LEFT -> if (!listOf(-1,2,5, 10, 15).contains(value))  copy(value = value + move.intValue) else this
+            MovePartTwo.RIGHT -> if (!listOf(-1,4,9, 12, 15).contains(value)) copy(value = value + move.intValue) else this
+        }
+
+        override fun toString(): String {
+            return when {
+                value === 10 -> "KeyPad(A)"
+                value === 11 -> "KeyPad(B)"
+                value === 12 -> "KeyPad(C)"
+                value === 15 -> "KeyPad(D)"
+                else -> "KeyPad($value)"
+            }
         }
 }
 
@@ -57,16 +67,17 @@ fun main(args: Array<String>) {
 
     //Assignment 2.1
     var keyPad = KeyPad(5)
+    println ("2.1 - Solution for original keypad")
     buttonInstructions.forEach {
         it.map {
             keyPad = keyPad.enterCode(it)
         }
-//        println(keyPad)
+        println(keyPad)
     }
 
-
-    //Assignment 2.1
-    val buttonInstructions2 = listOf("ULL", "RRDD", "LURDL", "UUUUD")
+    //Assignment 2.2
+    println ("2.2 - Solution for updated keypad")
+    val buttonInstructions2 = InputUtils().getInputAsText("src/day2/input.txt").readText().split("\n")
             .map{ it.toCharArray().map { MovePartTwo.fromString(it.toString()) }}
 
     var secondKeyPad = KeyPad(5)
