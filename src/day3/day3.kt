@@ -1,6 +1,7 @@
 package day3
 
 import util.InputUtils
+import util.batch
 
 data class Triangle (val edgeOne: Int, val edgeTwo: Int, val edgeThree: Int) {
     val isPossible by lazy  {
@@ -10,57 +11,37 @@ data class Triangle (val edgeOne: Int, val edgeTwo: Int, val edgeThree: Int) {
     }
 
     companion object {
-
-        fun fromList(values: List<Int>): Triangle {
-            return Triangle(values[0], values[1], values[2])
+        fun fromList(values: List<String>): Triangle {
+            return Triangle(values[0].trim().toInt(), values[1].trim().toInt(), values[2].trim().toInt())
         }
     }
 }
 
-public fun <T> Sequence<T>.batch(n: Int): Sequence<List<T>> {
-    return BatchingSequence(this, n)
+fun solvePartOne(triangleInputs: List<List<String>>) {
+    val possibleTriangles = triangleInputs
+            .map {Triangle.fromList(it)}
+            .filter { it.isPossible }
+            .count()
+
+    println("Amount of possible triangleInputs is: $possibleTriangles")
 }
 
-private class BatchingSequence<T>(val source: Sequence<T>, val batchSize: Int) : Sequence<List<T>> {
-    override fun iterator(): Iterator<List<T>> = object : AbstractIterator<List<T>>() {
-        val iterate = if (batchSize > 0) source.iterator() else emptyList<T>().iterator()
-        override fun computeNext() {
-            if (iterate.hasNext()) setNext(iterate.asSequence().take(batchSize).toList())
-            else done()
-        }
-    }
-}
-
-fun checkTriangles(triangles: List<List<Int>>): Int {
+fun solvePartTwo(triangleInputs: List<List<String>>) {
+    /** Take all nth items from the list and check these triangleInputs **/
     fun possibleTrianglesByIndex(index: Int): Int {
-        return triangles.flatMap {it.slice(listOf(index))}.asSequence().batch(3)
-                  .map { Triangle.fromList(it)}.toList()
-                  .count {it.isPossible}
+        return triangleInputs.flatMap {it.slice(listOf(index))}.asSequence().batch(3)
+                .map { Triangle.fromList(it)}.toList()
+                .count {it.isPossible}
     }
 
-    return possibleTrianglesByIndex(0) + possibleTrianglesByIndex(1) + possibleTrianglesByIndex(2)
-}
-
-
-fun solvePartOne() {
-    val triangles = InputUtils().getInputAsText("src/day3/input.txt").readText().split("\n")
-            .map { it.split("  ").filter(String::isNotEmpty).map{ it.trim().toInt() } }
-            .map { Triangle.fromList(it)}
-
-    println("Amount of possible triangles is: ${triangles.filter { it.isPossible }.count()}")
-}
-
-fun solvePartTwo() {
-    val triangles = InputUtils().getInputAsText("src/day3/input.txt").readText().split("\n")
-            .map { it.split("  ")
-                    .filter(String::isNotEmpty)
-                    .map{ it.trim().toInt() }}
-
-    println("Amount of possible vertical triangles is: ${checkTriangles(triangles)}")
+    val possibleTriangles = possibleTrianglesByIndex(0) + possibleTrianglesByIndex(1) + possibleTrianglesByIndex(2)
+    println("Amount of possible vertical triangleInputs is: $possibleTriangles")
 }
 
 fun main(args: Array<String>) {
-    solvePartOne()
+    val trianglesInput = InputUtils().getInputAsText("src/day3/input.txt").readText().split("\n")
+            .map {it.split("  ").filter(String::isNotEmpty)}
 
-    solvePartTwo()
+    solvePartOne(trianglesInput)
+    solvePartTwo(trianglesInput)
 }
