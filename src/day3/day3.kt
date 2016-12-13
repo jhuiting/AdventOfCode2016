@@ -12,7 +12,9 @@ data class Triangle (val edgeOne: Int, val edgeTwo: Int, val edgeThree: Int) {
 
     companion object {
         fun fromList(values: List<String>): Triangle {
-            return Triangle(values[0].trim().toInt(), values[1].trim().toInt(), values[2].trim().toInt())
+            fun toInt(s: String) = s.trim().toInt()
+
+            return Triangle(toInt(values[0]), toInt(values[1]), toInt(values[2]))
         }
     }
 }
@@ -34,8 +36,7 @@ fun solvePartTwo(triangleInputs: List<List<String>>) {
                 .count {it.isPossible}
     }
 
-    val possibleTriangles = possibleTrianglesByIndex(0) + possibleTrianglesByIndex(1) + possibleTrianglesByIndex(2)
-    println("Amount of possible vertical triangleInputs is: $possibleTriangles")
+    println("Amount of possible vertical triangleInputs is: ${listOf(0, 1, 2).fold(0) { i, j -> i + possibleTrianglesByIndex(j) }}")
 }
 
 fun main(args: Array<String>) {
