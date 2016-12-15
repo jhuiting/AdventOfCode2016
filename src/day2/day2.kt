@@ -62,7 +62,7 @@ enum class Move(val intValue: Int, val stringValue: String) {
 }
 
 fun main(args: Array<String>) {
-    val buttonInstructions = InputUtils().getInputAsText("src/day2/input.txt").readText().split("\n")
+    val buttonInstructions = InputUtils().getInputAsLineArray("day2")
             .map{ it.toCharArray().map { Move.fromString(it.toString()) }}
 
     //Assignment 2.1
@@ -77,7 +77,7 @@ fun main(args: Array<String>) {
 
     //Assignment 2.2
     println ("2.2 - Solution for updated keypad")
-    val buttonInstructions2 = InputUtils().getInputAsText("src/day2/input.txt").readText().split("\n")
+    val buttonInstructions2 = InputUtils().getInputAsLineArray("day2")
             .map{ it.toCharArray().map { MovePartTwo.fromString(it.toString()) }}
 
     var secondKeyPad = KeyPad(5)

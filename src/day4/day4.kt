@@ -47,14 +47,11 @@ fun solvePartTwo(rooms: List<Room>) {
 
 fun main(args: Array<String>) {
 
-    val allRooms = InputUtils().getInputAsText("src/day4/input.txt").readText().split("\n")
-            .map { Room.fromEncryptedName(it) };
+    val allRooms = InputUtils().getInputAsLineArray("day4").map { Room.fromEncryptedName(it) }
 
     solvePartOne(allRooms)
-
     solvePartTwo(allRooms)
 
-//
 //    println(Room.fromEncryptedName("aaaaa-bbb-z-y-x-123[abxyz]").hasValidChecksum())
 //    println(Room.fromEncryptedName("a-b-c-d-e-f-g-h-987[abcde]").hasValidChecksum()) //valid
 //    println(Room.fromEncryptedName("not-a-real-room-404[oarel]").hasValidChecksum()) // should be valid

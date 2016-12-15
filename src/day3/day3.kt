@@ -40,8 +40,9 @@ fun solvePartTwo(triangleInputs: List<List<String>>) {
 }
 
 fun main(args: Array<String>) {
-    val trianglesInput = InputUtils().getInputAsText("src/day3/input.txt").readText().split("\n")
-            .map {it.split("  ").filter(String::isNotEmpty)}
+    val trianglesInput = InputUtils().getInputAsLineArray("day3")
+                                     .map {it.split("  ")
+                                     .filter(String::isNotEmpty)}
 
     solvePartOne(trianglesInput)
     solvePartTwo(trianglesInput)

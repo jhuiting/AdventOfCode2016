@@ -15,7 +15,7 @@ fun move(state: State, step: Step): State {
 }
 
 fun main(args: Array<String>) {
-    val directions = InputUtils().getInputAsText("src/day1/input.txt").readText().split(",")
+    val directions = InputUtils().getInputAsLineArray("day1")
 
     //Assignment 1.1
     val state = directions.fold(State()) {
@@ -38,7 +38,7 @@ fun main(args: Array<String>) {
     directions.scanLeft(State()) {
         currentState: State, step: String ->
         move(currentState, Step.fromString(step.trim()))
-    }.forEach() {
+    }.forEach {
         if (coordinates.contains(it.coordinates)) {
             println("Found the real HQ location for Easter Bunny at ${it.coordinates}, that's ${it.distance} blocks away")
             return
